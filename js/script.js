@@ -21,7 +21,7 @@ function getCars() {
     carList.innerHTML = `<p class="message">차량 정보를 불러오는 중입니다.</p>`;
 
     //JSON Server에서 데이터를 요청
-    fetch("http://localhost:3000/cars")
+    fetch("./data/db.json")
         //서버응답
         .then((response) => {
             //서버에서 받은 응답확인
@@ -36,11 +36,13 @@ function getCars() {
         })
         //변환된 데이터
         .then(data => {
-            console.log('자동차 데이터:', data);
-            cars = data;
+            console.log('자동차 전체 데이터:', data);
 
-            //화면에 자동차 목록을 출력
-            renderCars(cars)
+            cars = data.cars;
+
+            console.log('자동차 데이터:', cars);
+
+            renderCars(cars);
         })
         //오류처리
         .catch(error => {
@@ -80,8 +82,8 @@ function renderCars(carData) {
         if (!car.available) {
             //console.log('car.available:', car.available)
             stausText = "대여 완료";
-            stausClass ='unavailable';
-            disabled='disabled'
+            stausClass = 'unavailable';
+            disabled = 'disabled'
         }
 
         /* 자동차 카드 */
@@ -127,13 +129,13 @@ function renderCars(carData) {
                 </div>
             </article>        
         `;
-    })    
+    })
 }
 
 /* 5. 차종필터 */
 filterButtons.forEach(button => {
     //console.log(button)
-    button.addEventListener('click', () => {       
+    button.addEventListener('click', () => {
 
         //클릭한 버튼의 data-category 값을 가져옴.
         const category = button.dataset.category;
@@ -156,7 +158,7 @@ filterButtons.forEach(button => {
         }
         //차종필터
         const filtedCars = cars.filter((car) => {
-            return car.category === category;            
+            return car.category === category;
         })
         //console.log(filtedCars)
 
